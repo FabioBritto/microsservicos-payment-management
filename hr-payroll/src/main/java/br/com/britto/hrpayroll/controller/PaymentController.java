@@ -2,6 +2,7 @@ package br.com.britto.hrpayroll.controller;
 
 import br.com.britto.hrpayroll.model.Payment;
 import br.com.britto.hrpayroll.service.PaymentService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,14 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    @HystrixCommand(fallbackMethod = "getPaymentAlternative")
     @GetMapping(value = "/{workerId}/days/{days}")
     public ResponseEntity<Payment> getPayment(@PathVariable("workerId") Long workerId, @PathVariable("days") Integer days) {
-        logger.info("PORT = " + env.getProperty("local.server.port"));
-
         return ResponseEntity.ok(paymentService.getPayment(workerId, days));
+    }
+
+    public ResponseEntity<Payment> getPaymentAlternative(Long workerId, Integer days) {
+        Payment payment = new Payment("Fabio Mockado", 400.0, days);
+        return ResponseEntity.ok(payment);
     }
 }
