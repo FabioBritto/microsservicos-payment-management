@@ -1,5 +1,6 @@
 package br.com.britto.hrpayroll.service;
 
+import br.com.britto.hrpayroll.feignclients.WorkerFeignClients;
 import br.com.britto.hrpayroll.model.Payment;
 import br.com.britto.hrpayroll.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,10 @@ import java.util.Map;
 public class PaymentService {
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${hr-worker.host}")
-    private String wokerHost;
+    private WorkerFeignClients workerFeignClients;
 
     public Payment getPayment(Long workerId, Integer days) {
-        Map<String, String> uriVariables = new HashMap<String, String>();
-        uriVariables.put("id", workerId.toString());
-        Worker worker = restTemplate.getForObject(wokerHost + "/workers/{id}", Worker.class, uriVariables);
+        Worker worker = workerFeignClients.findById(workerId).getBody();
         return new Payment(worker.getName(), worker.getDailyIncome(), days);
     }
 }
