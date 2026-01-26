@@ -5,6 +5,7 @@ import br.com.britto.hr_worker.repository.WorkerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ import java.util.List;
 public class WorkerController {
 
     private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
+
+    @Value("${test.config}")
+    private String testConfig;
 
     @Autowired
     private Environment env;
@@ -37,5 +41,11 @@ public class WorkerController {
 
         logger.info("PORT = " + env.getProperty("local.server.port"));
         return ResponseEntity.ok(workerRepository.findById(id).get());
+    }
+
+    @GetMapping(value = "/configs")
+    public ResponseEntity<Void>  findByConfig() {
+        logger.info("CONFIG = " + testConfig);
+        return ResponseEntity.noContent().build();
     }
 }
