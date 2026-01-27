@@ -13,9 +13,11 @@ public class User implements Serializable {
     private static  final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+    private String name;
+
+    @Column(unique = true)
     private String email;
     private String password;
 
@@ -28,9 +30,9 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(Long id, String nome, String email, String password) {
+    public User(Long id, String name, String email, String password) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.email = email;
         this.password = password;
     }
@@ -43,12 +45,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getname() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setname(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -79,11 +81,11 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(nome, user.nome) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, email, password);
+        return Objects.hash(id, name, email, password);
     }
 }
