@@ -21,13 +21,10 @@ import java.util.List;
 @RequestMapping(value = "/workers")
 public class WorkerController {
 
-    private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
-
-    @Value("${test.config}")
-    private String testConfig;
-
-    @Autowired
-    private Environment env;
+//    private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
+//
+//    @Value("${test.config}")
+//    private String testConfig;
 
     @Autowired
     private WorkerRepository workerRepository;
@@ -40,14 +37,12 @@ public class WorkerController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Worker> findById(@PathVariable Long id) {
-
-        logger.info("PORT = " + env.getProperty("local.server.port"));
         return ResponseEntity.ok(workerRepository.findById(id).get());
     }
 
     @GetMapping(value = "/configs")
     public ResponseEntity<Void>  findByConfig() {
-        logger.info("CONFIG = " + testConfig);
+//        logger.info("CONFIG = " + testConfig);
         return ResponseEntity.noContent().build();
     }
 }
