@@ -21,17 +21,11 @@ import java.util.List;
 @RequestMapping(value = "/workers")
 public class WorkerController {
 
-//    private static Logger logger = LoggerFactory.getLogger(WorkerController.class);
-//
-//    @Value("${test.config}")
-//    private String testConfig;
-
     @Autowired
     private WorkerRepository workerRepository;
 
     @GetMapping
     public ResponseEntity<List<Worker>> findAll() {
-        System.out.println("Workers: " + workerRepository.findAll());
         return ResponseEntity.ok(workerRepository.findAll());
     }
 
@@ -41,8 +35,7 @@ public class WorkerController {
     }
 
     @GetMapping(value = "/configs")
-    public ResponseEntity<Void>  findByConfig() {
-//        logger.info("CONFIG = " + testConfig);
+    public ResponseEntity<Void> findByConfig() {
         return ResponseEntity.noContent().build();
     }
 }
